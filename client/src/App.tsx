@@ -27,6 +27,7 @@ import {parseNextPeriod} from './components/schedule/PeriodIndicator';
 import {parsePeriodName, parsePeriodColor} from './components/schedule/Periods';
 import {hexToRgb} from './components/schedule/ProgressBarColor';
 import {updateFirebaseUserData, updateLocalStorageUserData} from './firebase/updateUserData';
+import { LazyRoute } from './components/utilities/LazyRoute';
 
 const calendarAPIKey = 'AIzaSyBDNSLCIZfrJ_IwOzUfO_CJjTRGkVtgaZc';
 
@@ -234,7 +235,7 @@ const App = () => {
     let localStorageRawData = {};
     try {
         localStorageRawData = JSON.parse(localStorage.getItem("data") ?? '{}')
-    } catch(err) { 
+    } catch(err) {
         // something happened
         localStorage.removeItem('data');
     }
@@ -314,14 +315,14 @@ const App = () => {
                 <TimeProvider value={date}>
                     <Layout>
                         <Switch>
-                            <Route exact path='/' render={() => <Home events={events}/>}/>
-                            <Route path='/utilities' component={Utilities}/>
-                            <Route path='/classes' component={Classes}/>
-                            <Route path='/clubs' component={Clubs}/>
-                            <Route path='/settings' component={Settings}/>
-                            <Route path='/super-secret-testing' component={Testing}/>
-                            <Route path='/schoology/auth' component={SgyAuthRedirect}/>
-                            <Route component={PageNotFound}/>
+                            <LazyRoute exact path='/'><Home events={events}/></LazyRoute>
+                            <LazyRoute path='/utilities'><Utilities /></LazyRoute>
+                            <LazyRoute path='/classes'><Classes /></LazyRoute>
+                            <LazyRoute path='/clubs'><Clubs /></LazyRoute>
+                            <LazyRoute path='/settings'><Settings /></LazyRoute>
+                            <LazyRoute path='/super-secret-testing'><Testing /></LazyRoute>
+                            <LazyRoute path='/schoology/auth'><SgyAuthRedirect /></LazyRoute>
+                            <LazyRoute><PageNotFound /></LazyRoute>
                             {/* gunnData && console.log(gunnData.docs.map(x => x.data())) */}
                             {/* gunnData && gunnData.forEach(e => console.log(e.data())) */}
                             {/* userData && console.log(userData.data()) */}
